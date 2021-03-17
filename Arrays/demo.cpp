@@ -7,32 +7,34 @@ private:
    int m_Size;
 public:
    // Constructors / CREATION
-   Array(const int&);
-   Array(const int&, const int&);
+   Array(const int&); // SIZE
+   Array(const int&, const int&); // SIZE, INITIALIZE
 
    // INSERTION / SETTERS
-   void Insert(const int&, const int&);
-   void InsertFirst(const int&);
-   void InsertLast(const int&);
+   void Insert(const int&, const int&); // DATA, POSITION
+   void InsertFirst(const int&); // DATA
+   void InsertLast(const int&); // DATA
 
    // DELETION
-   void Delete(const int&);
+   void Delete(const int&); // POSITION
 
    // GETTERS
-   int Get(const int&) const;
+   int Get(const int&) const; // POSITION
    int GetFirst() const;
    int GetLast() const;
    int GetSize() const;
 
    // UTILITIES
-   void Extend(const int&);
-   void Concat(const Array*);
-   void Concat(const int*, const int& Size);
-   bool Search(const int&);
+   void Extend(const int&); // SIZE
+   void Concat(const Array*); // OBJECT 
+   void Concat(const int*, const int&); // ARRAY, SIZE
    void Display() const;
+
+   bool Search(const int&); // VALUE
    int GreatestValue() const;
    int SmallestValue() const;
    bool SelectionSort() const;
+
 private:
    void Prepare(const int&, const int&);
 };
@@ -121,8 +123,10 @@ void Array::Extend(const int& Size) {
    int OldSize = this->m_Size;
    // TO UPDATE & VALIDATE THE EXTEND_SIZE
    this->m_Size = Size > 0 ? (this->m_Size + Size) : this->m_Size;
+   // JUST EXPANDED VERSION - OPTIONAL
    // if (Size > 0) {
-   //    this->m_Size = this->m_Size + Size;
+   //    // this->m_Size = this->m_Size + Size;
+   //    this->m_Size += Size;
    // }
    // else {
    //    this->m_Size = this->m_Size;
@@ -133,6 +137,7 @@ void Array::Extend(const int& Size) {
 
    for (int i = 0; i < this->m_Size;++i) {
       NewArray[i] = i < OldSize ? this->m_Data[i] : 0;
+      // JUST EXPANDED VERSION - OPTIONAL
       // if (i < OldSize) {
       //    NewArray[i] = this->m_Data[i];
       // }
@@ -183,7 +188,7 @@ bool Array::Search(const int& Value) {
 int Array::GreatestValue() const {
    int Hold = this->m_Data[0]; // SUPPOSED
    for (int i = 1; i < this->m_Size; ++i) {
-      if (Hold > this->m_Data[i]) {
+      if (Hold < this->m_Data[i]) {
          Hold = this->m_Data[i];
       }
    }
@@ -193,23 +198,27 @@ int Array::GreatestValue() const {
 int Array::SmallestValue() const {
    int Hold = this->m_Data[0]; // SUPPOSED
    for (int i = 1; i < this->m_Size; ++i) {
-      if (Hold < this->m_Data[i]) {
+      if (Hold > this->m_Data[i]) {
          Hold = this->m_Data[i];
       }
    }
    return Hold;
 }
+
 bool Array::SelectionSort() const {
    // LATER xD
 }
 ///////////////////////////////////////////////////////////////////////////////////////////
 int main() {
-   Array Data(5, 11);
-   // Array Test(4, 45);
+   Array Data(5, 11); // [11, 11, 11, 11, 11]
+   Array Test(4, 45);
    int Num[5] = { 1,2,3,4,5 };
    Data.Concat(Num, 5);
    // Data.Concat(&Test);
-   Data.Display();
+   // Data.Display();
+   std::cout << "Greatest Value:\t" << Data.GreatestValue() << std::endl;
+   std::cout << "Smallest Value:\t" << Data.SmallestValue() << std::endl;
+   // Data.Concat(&Test);
    // Data.Insert(152, 0);
    // Data.Insert(652, 2);
    // ADD_SPACE;
@@ -218,6 +227,11 @@ int main() {
    // Data.Extend(5);
    // Data.Display();
 
+   for (int i = 0; i < Data.GetSize(); ++i) {
+      std::cout << Data.Get(i) << std::endl;
+   }
+
    system("PAUSE");
+   // return 0;
    return EXIT_SUCCESS;
 }
